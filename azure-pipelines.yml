@@ -13,13 +13,16 @@ steps:
     goals: 'clean package'
 
 - script: |
-    echo "Simulating deployment..."
-    mkdir deployed
+    echo Creating deployment folder
+    if not exist deployed mkdir deployed
+
+    echo Copying jar file
     copy target\*.jar deployed\
-    echo "Deployment successful!"
-  displayName: 'Simulate Deployment'
+
+    dir deployed
+  displayName: 'Deploy JAR'
 
 - script: |
-    echo "Running the JAR file..."
-    java -jar deployed\*.jar
+    echo Running the JAR file...
+    java -jar deployed\finaldevops-1.0.jar
   displayName: 'Run Application'
