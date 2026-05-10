@@ -1,0 +1,24 @@
+trigger:
+- main
+
+pool:
+  name: MYLOCALPOOL
+
+steps:
+
+- task: Maven@4
+  inputs:
+    mavenPomFile: 'pom.xml'
+    goals: 'clean package'
+
+- script: |
+    echo "Simulating deployment..."
+    mkdir deployed
+    copy target\*.jar deployed\
+    echo "Deployment successful!"
+  displayName: 'Simulate Deployment'
+
+- script: |
+    echo "Running the JAR file..."
+    java -jar deployed\*.jar
+  displayName: 'Run Application'
